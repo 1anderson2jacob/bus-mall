@@ -23,7 +23,7 @@ var leftImg = document.getElementById('leftImg');
 var midImg = document.getElementById('midImg');
 var rightImg = document.getElementById('rightImg');
 
-function randItem() {
+function randItem() { //finds a random unique number
   var unique = false;
 
   while (unique === false) {
