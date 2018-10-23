@@ -1,5 +1,8 @@
-img {
+li img {
   border: 2px solid red;
   height: 300px;
   width: auto;
+}
+li {
+  display: inline-block;
 }

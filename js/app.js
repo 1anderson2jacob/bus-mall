@@ -19,30 +19,32 @@ new Item('Bubblegum', 'assets/bubblegum.jpg');
 new Item('Chair', 'assets/chair.jpg');
 new Item('Cthulu', 'assets/cthulhu.jpg');
 
+//Get <img> elements from DOM
 var leftImg = document.getElementById('leftImg');
 var midImg = document.getElementById('midImg');
 var rightImg = document.getElementById('rightImg');
 
+//Get <ul> img element from DOM
+var itemImgsUl = document.getElementById('itemImgs');
 
-function randItem() { //finds a random unique number
+//find a random unique Item
+function randItem() { 
   var unique = false;
 
   while (unique === false) {
     var idx = Math.floor(Math.random() * allItems.length);
-    console.log(`idx = ${idx}`);
 
     //check duplicateItems[] for allItems[idx]
     if (!duplicateItems.includes(allItems[idx])) {
 
       unique = true;
       duplicateItems.push(allItems[idx]);
-      console.log(`unique is ${unique}`);
-      console.log(`${allItems[idx].name} pushed to duplicateItems`);
     }
 
-    console.log(`unique is ${unique}`);
+    //console.log(`unique is ${unique}`);
   }
   if (duplicateItems.length > 6) {
+
     var deleted = duplicateItems.shift();
     console.log(`${deleted.name} is deleted from duplicateItems[]`);
   }
@@ -50,38 +52,51 @@ function randItem() { //finds a random unique number
   return allItems[idx];
 }
 
-function itemChoices(imgPosition) {
+
+function itemChoicesClick(event) {
   var leftItem = randItem();
   var midItem = randItem();
   var rightItem = randItem();
+  var clickTarget = event.target;
 
   leftImg.src = leftItem.filepath;
   leftImg.alt = leftItem.name;
   leftImg.title = leftItem.name;
 
-  midItem.src = midItem.filepath;
-  midItem.alt = midItem.name;
-  midItem.title = midItem.name;
+  midImg.src = midItem.filepath;
+  midImg.alt = midItem.name;
+  midImg.title = midItem.name;
 
-  rightItem.src = rightItem.filepath;
-  rightItem.alt = rightItem.name;
-  rightItem.title = rightItem.name;
+  rightImg.src = rightItem.filepath;
+  rightImg.alt = rightItem.name;
+  rightImg.title = rightItem.name;
 
-  if (imgPosition === 'left') {
-    allItems[allItems.length-3].views++; // 3rd to last item in allItems[]
+  console.log(leftImg);
+  console.log(midImg);
+  console.log(rightImg);
+  console.log(clickTarget);
 
-  } else if (imgPosition === 'mid') { 
-    allItems[allItems.length-2].view++; //2nd to last item in allItems[]
+  clickTarget.votes++;
 
-  } else {
-    allItems[allItems.length-1].views++; //last item in allItems[]
+  // if (imgPosition === 'left') {
+  //   allItems[allItems.length-3].views++; // 3rd to last item in allItems[]
+  //   console.log('Left picture clicked');
 
-  }
+  // } else if (imgPosition === 'mid') { 
+  //   allItems[allItems.length-2].view++; //2nd to last item in allItems[]
+  //   console.log('Middle picture clicked');
+
+  // } else {
+  //   allItems[allItems.length-1].views++; //last item in allItems[]
+  //   console.log('Right picture clicked');
+
+  // }
 }
 
-leftImg.addEventListener('click', itemChoices('left'));
-midImg.addEventListener('click', itemChoices('mid'));
-rightImg.addEventListener('click', itemChoices('right'));
+itemImgsUl.addEventListener('click', itemChoicesClick);
+// leftImg.addEventListener('click', itemChoices);
+// midImg.addEventListener('click', itemChoices);
+// rightImg.addEventListener('click', itemChoices);
 
 // get 3 random items
 // they can't be duplicates of eachother, or duplicates of the last 3
