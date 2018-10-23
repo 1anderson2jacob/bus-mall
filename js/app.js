@@ -2,22 +2,26 @@
 
 var allItems = [];
 var duplicateItems = [];
+var numVotes = 0;
 
-function Item(name, filepath) {
+function Item(name, filepath, idx) {
   this.name = name;
   this.filepath = filepath;
   this.votes = 0;
+  this.idx = idx;
   allItems.push(this);
 }
 
-new Item('Bag', 'assets/bag.jpg');
-new Item('Banana', 'assets/banana.jpg');
-new Item('Bathroom', 'assets/bathroom.jpg');
-new Item('Boots', 'assets/boots.jpg');
-new Item('Breakfast', 'assets/breakfast.jpg');
-new Item('Bubblegum', 'assets/bubblegum.jpg');
-new Item('Chair', 'assets/chair.jpg');
-new Item('Cthulu', 'assets/cthulhu.jpg');
+//when change to instantiate w/ loop, put i as last argument
+new Item('Bag', 'assets/bag.jpg', 0);
+new Item('Banana', 'assets/banana.jpg', 1);
+new Item('Bathroom', 'assets/bathroom.jpg', 2);
+new Item('Boots', 'assets/boots.jpg', 3);
+new Item('Breakfast', 'assets/breakfast.jpg', 4);
+new Item('Bubblegum', 'assets/bubblegum.jpg', 5);
+new Item('Chair', 'assets/chair.jpg', 6);
+new Item('Cthulu', 'assets/cthulhu.jpg', 7);
+
 
 //Get <img> elements from DOM
 var leftImg = document.getElementById('leftImg');
@@ -45,14 +49,14 @@ function randItem() {
   }
   if (duplicateItems.length > 6) {
 
-    var deleted = duplicateItems.shift();
-    console.log(`${deleted.name} is deleted from duplicateItems[]`);
+    duplicateItems.shift();
   }
 
   return allItems[idx];
 }
 
 
+//on picture click
 function itemChoicesClick(event) {
   var leftItem = randItem();
   var midItem = randItem();
@@ -71,14 +75,24 @@ function itemChoicesClick(event) {
   rightImg.alt = rightItem.name;
   rightImg.title = rightItem.name;
 
-  console.log(leftImg);
-  console.log(midImg);
-  console.log(rightImg);
-  console.log(clickTarget);
+  console.log(`${clickTarget.title} was clicked `);
 
-  clickTarget.votes++;
+  if (clickTarget.title === leftItem.name) {
+    leftItem.votes++;
+  } else if(clickTarget.title === midItem.name) {
+    midItem.votes++;
+  } else{
+    rightItem.votes++;
+  }
+
+  numVotes++;
+
+  if (numVotes > 0) { //change to 19
+    console.table(allItems);
+  }
 }
 
+//on load
 function itemChoicesInitialize() {
   var leftItem = randItem();
   var midItem = randItem();
