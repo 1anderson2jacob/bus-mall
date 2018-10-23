@@ -77,31 +77,25 @@ function itemChoicesClick(event) {
   console.log(clickTarget);
 
   clickTarget.votes++;
-
-  // if (imgPosition === 'left') {
-  //   allItems[allItems.length-3].views++; // 3rd to last item in allItems[]
-  //   console.log('Left picture clicked');
-
-  // } else if (imgPosition === 'mid') { 
-  //   allItems[allItems.length-2].view++; //2nd to last item in allItems[]
-  //   console.log('Middle picture clicked');
-
-  // } else {
-  //   allItems[allItems.length-1].views++; //last item in allItems[]
-  //   console.log('Right picture clicked');
-
-  // }
 }
 
+function itemChoicesInitialize() {
+  var leftItem = randItem();
+  var midItem = randItem();
+  var rightItem = randItem();
+
+  leftImg.src = leftItem.filepath;
+  leftImg.alt = leftItem.name;
+  leftImg.title = leftItem.name;
+
+  midImg.src = midItem.filepath;
+  midImg.alt = midItem.name;
+  midImg.title = midItem.name;
+
+  rightImg.src = rightItem.filepath;
+  rightImg.alt = rightItem.name;
+  rightImg.title = rightItem.name;
+}
+
+itemChoicesInitialize();
 itemImgsUl.addEventListener('click', itemChoicesClick);
-// leftImg.addEventListener('click', itemChoices);
-// midImg.addEventListener('click', itemChoices);
-// rightImg.addEventListener('click', itemChoices);
-
-// get 3 random items
-// they can't be duplicates of eachother, or duplicates of the last 3
-// display them in leftImg midImg and rightImg
-
-// determine and track which one is clicked
-// update Item.vote to show how many times its been chosen
-
