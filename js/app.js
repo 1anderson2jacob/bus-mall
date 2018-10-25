@@ -2,6 +2,7 @@
 
 var allItems = [];
 var duplicateItems = [];
+var itemVotes = [];
 var numVotes = 0;
 
 function Item(name, filepath) {
@@ -44,7 +45,7 @@ var rightImg = document.getElementById('rightImg');
 var itemImgsUl = document.getElementById('itemImgs');
 
 //find a random unique Item
-function randItem() { 
+function randItem() {
   var unique = false;
 
   while (unique === false) {
@@ -66,7 +67,13 @@ function randItem() {
 
   return allItems[idx];
 }
-
+//adds allItems votes to array
+Array.prototype.votes = function() {
+  for (var i = 0; i < allItems.length; i++) {
+    itemVotes[i] = allItems[i].votes;
+  }
+  return itemVotes;
+}
 
 //on picture click
 function itemChoicesClick(event) {
@@ -96,7 +103,9 @@ function itemChoicesClick(event) {
   } else{
     rightItem.votes++;
   }
-  itemChart.update(); ////////////////////////////////
+  //update chart, right now each click but eventually only after 25 votes
+  itemChart.update();
+
   numVotes++;
 
   if (numVotes > 0) { //change to 19
@@ -130,7 +139,7 @@ var data = {
       label: 'Item Votes',
       fillColor : '#48A497',
       strokeColor : '#48A4D1',
-      data : allItems
+      data : allItems.votes()
     },
   ]
 }
