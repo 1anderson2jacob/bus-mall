@@ -2,8 +2,31 @@
 
 var allItems = [];
 var duplicateItems = [];
-var itemVotes = [];
-var numVotes = 0;
+//var itemVotes = [];
+//var numVotes = 0;
+
+if (localStorage.getItem('localData') === null) {
+  var itemVotes = [];
+  var numVotes = 0;
+  itemChoicesInitialize();
+
+} else {
+  itemVotes = JSON.parse(localStorage.getItem('localData'));
+  numVotes = sumVotes();
+  if (numVotes > 24) {
+    //document.getElementById('itemImgs').hidden = true;
+    drawChart();
+  }
+}
+
+
+function sumVotes() {
+  var sum = 0;
+  for (var i = 0; i < itemVotes.length; i++) {
+    sum += itemVotes[i];
+  }
+  return sum;
+}
 
 function Item(name, filepath) {
   this.name = name;
@@ -103,7 +126,8 @@ function itemChoicesClick(event) {
   } else{
     rightItem.votes++;
   }
-
+  saveToLocalStorage();
+  
   numVotes++;
 
   if (numVotes > 24) { //set to 24
@@ -112,6 +136,13 @@ function itemChoicesClick(event) {
     drawChart();
   }
 }
+
+function saveToLocalStorage() {
+  var votesToString = JSON.stringify(itemVotes);
+
+  localStorage.setItem('localData', votesToString);
+}
+
 
 //on load
 function itemChoicesInitialize() {
@@ -150,7 +181,6 @@ var data = {
   ]
 }
 
-
 var itemChart;
 
 function drawChart() {
@@ -173,7 +203,6 @@ function drawChart() {
 
 }
 
-itemChoicesInitialize();
 itemImgsUl.addEventListener('click', itemChoicesClick);
 
 
