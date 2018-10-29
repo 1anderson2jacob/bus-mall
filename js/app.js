@@ -103,13 +103,13 @@ function itemChoicesClick(event) {
   } else{
     rightItem.votes++;
   }
-  //update chart, right now each click but eventually only after 25 votes
-  itemChart.update();
 
   numVotes++;
 
-  if (numVotes > 0) { //change to 19
-    console.table(allItems);
+  if (numVotes > 24) { //set to 24
+    document.getElementById('itemImgs').hidden = true;
+    updateChartArray();
+    drawChart();
   }
 }
 
@@ -132,6 +132,12 @@ function itemChoicesInitialize() {
   rightImg.title = rightItem.name;
 }
 
+function updateChartArray() {
+  for (var i = 0; i < allItems.length; i++) {
+    itemVotes[i] = allItems[i].votes;
+  }
+}
+
 var data = {
   labels : ['Bag', 'Banana', 'Bathroom', 'Boots', 'Breakfast', 'Bubblegum', 'Chair', 'Cthulu', 'Dog Duck', 'Dragon', 'Pen', 'Pet Sweep', 'Scissors', 'Shark', 'Sweep', 'Tauntaun', 'Unicorn', 'Usb', 'Water Can', 'Wine Glass'],
   datasets : [
@@ -139,7 +145,7 @@ var data = {
       label: 'Item Votes',
       fillColor : '#48A497',
       strokeColor : '#48A4D1',
-      data : allItems.votes()
+      data : itemVotes
     },
   ]
 }
@@ -166,7 +172,8 @@ function drawChart() {
   })
 
 }
-drawChart();
+
 itemChoicesInitialize();
 itemImgsUl.addEventListener('click', itemChoicesClick);
+
 
