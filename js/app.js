@@ -2,6 +2,7 @@
 
 var allItems = [];
 var duplicateItems = [];
+var itemVotes = [];
 var numVotes = 0;
 
 function Item(name, filepath) {
@@ -44,7 +45,7 @@ var rightImg = document.getElementById('rightImg');
 var itemImgsUl = document.getElementById('itemImgs');
 
 //find a random unique Item
-function randItem() { 
+function randItem() {
   var unique = false;
 
   while (unique === false) {
@@ -66,7 +67,13 @@ function randItem() {
 
   return allItems[idx];
 }
-
+//adds allItems votes to array
+Array.prototype.votes = function() {
+  for (var i = 0; i < allItems.length; i++) {
+    itemVotes[i] = allItems[i].votes;
+  }
+  return itemVotes;
+}
 
 //on picture click
 function itemChoicesClick(event) {
@@ -96,11 +103,13 @@ function itemChoicesClick(event) {
   } else{
     rightItem.votes++;
   }
-  itemChart.update(); ////////////////////////////////
+
   numVotes++;
 
-  if (numVotes > 0) { //change to 19
-    console.table(allItems);
+  if (numVotes > 24) { //set to 24
+    document.getElementById('itemImgs').hidden = true;
+    updateChartArray();
+    drawChart();
   }
 }
 
@@ -123,6 +132,12 @@ function itemChoicesInitialize() {
   rightImg.title = rightItem.name;
 }
 
+function updateChartArray() {
+  for (var i = 0; i < allItems.length; i++) {
+    itemVotes[i] = allItems[i].votes;
+  }
+}
+
 var data = {
   labels : ['Bag', 'Banana', 'Bathroom', 'Boots', 'Breakfast', 'Bubblegum', 'Chair', 'Cthulu', 'Dog Duck', 'Dragon', 'Pen', 'Pet Sweep', 'Scissors', 'Shark', 'Sweep', 'Tauntaun', 'Unicorn', 'Usb', 'Water Can', 'Wine Glass'],
   datasets : [
@@ -130,7 +145,7 @@ var data = {
       label: 'Item Votes',
       fillColor : '#48A497',
       strokeColor : '#48A4D1',
-      data : allItems
+      data : itemVotes
     },
   ]
 }
@@ -157,7 +172,8 @@ function drawChart() {
   })
 
 }
-drawChart();
+
 itemChoicesInitialize();
 itemImgsUl.addEventListener('click', itemChoicesClick);
+
 
